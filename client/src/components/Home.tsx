@@ -1,21 +1,19 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import React, { useState } from 'react';
+import { io } from 'socket.io-client';
+
+const BASEURL = 'http://localhost:3001';
+const socket = io(BASEURL);
 
 export default function Example() {
+  const [message, setMessage] = useState<string>();
+
+  function sendMessage(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    socket.emit('messages', {
+      message,
+    });
+    setMessage('');
+  }
   return (
     <>
       {/*
@@ -43,19 +41,27 @@ export default function Example() {
               Let's see if shit works here.
             </p>
           </div>
-          <form className='mt-8 flex justify-center' action='#' method='POST'>
+          <form
+            className='mt-8 flex justify-center'
+            // action='#'
+            // method='POST'
+            onSubmit={sendMessage}>
             <input type='hidden' name='remember' defaultValue='true' />
             <div className='rounded-md shadow-sm -space-y-px w-100 inlin'>
               <div>
-                <label htmlFor='email-address' className='sr-only'>
+                <label htmlFor='message' className='sr-only'>
                   Message
                 </label>
                 <input
-                  id='email-address'
-                  name='email'
-                  type='email'
+                  id='message'
+                  name='message'
+                  type='text'
                   autoComplete='email'
                   required
+                  value={message}
+                  onChange={(event) => {
+                    setMessage(event.target.value);
+                  }}
                   className='appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                   placeholder='Aa'
                 />
