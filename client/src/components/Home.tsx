@@ -6,6 +6,7 @@ const socket = io(BASEURL);
 
 export default function Example() {
   const [message, setMessage] = useState<string>();
+  const [conversation, setConversation] = useState<string>();
 
   // Function: Send message to the socket.
   function sendMessage(event: React.FormEvent<HTMLFormElement>) {
@@ -23,10 +24,9 @@ export default function Example() {
     // From the server, messages which were sent from the server of users
     // on the same room.
     socket.on('messages_received', (data) => {
-      console.log(data);
-      alert(data.message);
+      setConversation(data.message);
     });
-  }, [socket]);
+  }, []);
   return (
     <>
       <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -91,6 +91,7 @@ export default function Example() {
           </form>
         </div>
       </div>
+      <div>{conversation}</div>
     </>
   );
 }

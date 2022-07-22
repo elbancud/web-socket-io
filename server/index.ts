@@ -43,7 +43,6 @@ io.on('connection', (socket: any) => {
   // This will be sent by the user on the room.
   // Meaning on the current port
   socket.on('messages', (data: object) => {
-    console.log(data);
     // This means that broadcast or share this mf to the users in the room.
     // Send them messages back to everyone in the room.
     socket.broadcast.emit('messages_received', data);
