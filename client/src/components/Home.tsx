@@ -23,7 +23,8 @@ export default function Example() {
     // From the server, messages which were sent from the server of users
     // on the same room.
     socket.on('messages_received', (data) => {
-      alert(data.messages);
+      console.log(data);
+      alert(data.message);
     });
   }, [socket]);
   return (
