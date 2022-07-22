@@ -17,3 +17,6 @@ const io = new Server(server, {
     methods: ['GET', 'POST'],
   },
 });
+server.listen(3000, () => {
+  console.log('server started');
+});
